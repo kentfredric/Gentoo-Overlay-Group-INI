@@ -74,8 +74,8 @@ Return the hard-coded array ref of paths to use, or parses C<$ENV{GENTOO_OVERLAY
 
 =cut
 
+## no critic (RegularExpressions)
 sub _init_cf_paths {
-
   my $cfg_paths = [
     Path::Class::Dir->new( File::HomeDir->my_dist_config('Gentoo-Overlay-Group-INI') ),
     Path::Class::Dir->new( File::HomeDir->my_data )->subdir( '.config', 'Gentoo-Overlay-Group-INI' ),
@@ -96,6 +96,7 @@ sub _init_cf_paths {
   }
   return $cfg_paths;
 }
+##  use critic
 
 =p_func _enumerate_file_list
 
@@ -106,7 +107,7 @@ Returns a list of file paths to check, in the order they should be checked.
 =cut
 
 sub _enumerate_file_list {
-  return map { $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') } @{ _cf_paths() };
+  return map { ( $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') ) } @{ _cf_paths() };
 }
 
 =p_func _first_config_file
@@ -128,7 +129,7 @@ sub _first_config_file {
   );
 }
 
-=c_method
+=c_method load
 
 Returns a working Overlay::Group object.
 
