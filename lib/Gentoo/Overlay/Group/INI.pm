@@ -18,7 +18,6 @@ use Gentoo::Overlay::Exceptions;
 
 
 
-
 our $CFG_PATHS;
 
 
@@ -50,9 +49,13 @@ sub _init_cf_paths {
   }
   return $cfg_paths;
 }
+
+
 sub _enumerate_file_list {
-  return map { $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') } @{_cf_paths()};
+  return map { $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') } @{ _cf_paths() };
 }
+
+
 sub _first_config_file {
   for my $file (_enumerate_file_list) {
     return $file if -e -f $file;
@@ -63,6 +66,8 @@ sub _first_config_file {
     payload => { paths => ( join q{}, map { "    $_\n" } _enumerate_file_list ), }
   );
 }
+
+
 sub load {
   my ($self) = shift;
   require Config::MVP::Reader;
@@ -71,16 +76,14 @@ sub load {
   require Gentoo::Overlay::Group::INI::Section;
   my $reader = Config::MVP::Reader::INI->new();
 
-  my $asm    = Gentoo::Overlay::Group::INI::Assembler->new(
-    section_class => 'Gentoo::Overlay::Group::INI::Section',
-  );
+  my $asm = Gentoo::Overlay::Group::INI::Assembler->new( section_class => 'Gentoo::Overlay::Group::INI::Section', );
 
   my $cnf = _first_config_file();
 
   my $seq = $reader->read_config( $cnf, { assembler => $asm } );
   require Gentoo::Overlay::Group;
   my $group = Gentoo::Overlay::Group->new();
-  $group->add_overlay( $_ ) for $seq->{sections}->{Overlays}->construct->directories;
+  $group->add_overlay($_) for $seq->{sections}->{Overlays}->construct->directories;
   return $group;
 
 }
@@ -129,6 +132,12 @@ If you have set C<GENTOO_OVERLAY_GROUP_INI_PATH>, it will be split by C<B<:>> an
   /b/Gentoo-Overlay-Group-INI.ini
 
 If any of the path parts start with C<~/> , those parts will be expanded to your "Home" directory.
+
+Format of the INI files is as follows:
+
+  [Overlays]
+  directory = /usr/portage
+  directory = /usr/local/portage
 
 =head1 CLASS METHODS
 

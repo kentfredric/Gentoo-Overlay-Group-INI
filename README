@@ -34,6 +34,12 @@ SYNOPSIS
     If any of the path parts start with "~/" , those parts will be expanded
     to your "Home" directory.
 
+    Format of the INI files is as follows:
+
+      [Overlays]
+      directory = /usr/portage
+      directory = /usr/local/portage
+
 CLASS METHODS
   
     Returns a working Overlay::Group object.
