@@ -3,10 +3,24 @@ use warnings;
 
 package Gentoo::Overlay::Group::INI::Section;
 
-# ABSTRACT:
+# ABSTRACT: Storage container for Parsed/Decoded Config::MVP sections.
+
+=head1 DESCRIPTION
+
+Parsed Sections are blessed into this class structure.
+
+=cut
 
 use Moose;
 extends 'Config::MVP::Section';
+
+=method construct
+
+  my $object = $section->construct();
+
+Inflates the Object specification ( this section ) into the target object.
+
+=cut
 
 sub construct {
   my ($self)    = @_;
