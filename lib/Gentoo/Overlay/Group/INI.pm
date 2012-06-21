@@ -28,7 +28,8 @@ sub _cf_paths {
 
 
 ## no critic (RegularExpressions)
-sub _init_cf_paths {      my $cfg_paths = [
+sub _init_cf_paths {
+  my $cfg_paths = [
     Path::Class::Dir->new( File::HomeDir->my_dist_config('Gentoo-Overlay-Group-INI') ),
     Path::Class::Dir->new( File::HomeDir->my_data )->subdir( '.config', 'Gentoo-Overlay-Group-INI' ),
     Path::Class::Dir->new('/etc/Gentoo-Overlay-Group-INI'),
@@ -49,6 +50,7 @@ sub _init_cf_paths {      my $cfg_paths = [
   return $cfg_paths;
 }
 ##  use critic
+
 
 sub _enumerate_file_list {
   return map { ( $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') ) } @{ _cf_paths() };
@@ -140,7 +142,7 @@ Format of the INI files is as follows:
 
 =head1 CLASS METHODS
 
-=head2
+=head2 load
 
 Returns a working Overlay::Group object.
 

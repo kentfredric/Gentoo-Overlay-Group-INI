@@ -41,7 +41,7 @@ SYNOPSIS
       directory = /usr/local/portage
 
 CLASS METHODS
-  
+  load
     Returns a working Overlay::Group object.
 
       my $group = Gentoo::Overlay::Group::INI->load();
