@@ -1,0 +1,78 @@
+NAME
+    Gentoo::Overlay::Group::INI - Load a list of overlays defined in a
+    configuration file.
+
+VERSION
+    version 0.1.0
+
+SYNOPSIS
+    Generates a "Gentoo::Overlay::Group" object using a configuration file
+    from your environment.
+
+      require Gentoo::Overlay::Group::INI;
+      my $group = Gentoo::Overlay::Group::INI->load();
+
+    Currently, the following paths are checked:
+
+      ~/.perl/Gentoo-Overlay-Group-INI/config.ini
+      ~/.perl/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+      ~/.config/Gentoo-Overlay-Group-INI/config.ini
+      ~/.config/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+      /etc/Gentoo-Overlay-Group-INI/config.ini
+      /etc/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+
+    If you have set "GENTOO_OVERLAY_GROUP_INI_PATH", it will be split by ":"
+    and each part scanned:
+
+      $ENV{GENTOO_OVERLAY_GROUP_INI_PATH} = "/a:/b"
+
+      /a/config.ini
+      /a/Gentoo-Overlay-Group-INI.ini
+      /b/config.ini
+      /b/Gentoo-Overlay-Group-INI.ini
+
+    If any of the path parts start with "~/" , those parts will be expanded
+    to your "Home" directory.
+
+CLASS METHODS
+  
+    Returns a working Overlay::Group object.
+
+      my $group = Gentoo::Overlay::Group::INI->load();
+
+PACKAGE VARIABLES
+  $CFG_PATHS
+    An array ref of Path::Class::Dir objects to scan for config files.
+
+PRIVATE FUNCTIONS
+  _cf_paths
+    Fetch $CFG_PATHS, and initialize $CFG_PATHS if it isn't initialized.
+
+      my $path_list = _cf_paths();
+
+  _init_cf_paths
+    Return the hard-coded array ref of paths to use, or parses
+    $ENV{GENTOO_OVERLAY_GROUP_INI_PATH}.
+
+      my $path_list = _init_cf_paths();
+
+  _enumerate_file_list
+    Returns a list of file paths to check, in the order they should be
+    checked.
+
+      my @list = _enumerate_file_list();
+
+  _first_config_file
+    Returns the path to the first file that exists.
+
+      my $first = _first_config_file();
+
+AUTHOR
+    Kent Fredric <kentnl@cpan.org>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
