@@ -38,6 +38,12 @@ If you have set C<GENTOO_OVERLAY_GROUP_INI_PATH>, it will be split by C<B<:>> an
 
 If any of the path parts start with C<~/> , those parts will be expanded to your "Home" directory.
 
+Format of the INI files is as follows:
+
+  [Overlays]
+  directory = /usr/portage
+  directory = /usr/local/portage
+
 =cut
 
 =pkg_var $CFG_PATHS
