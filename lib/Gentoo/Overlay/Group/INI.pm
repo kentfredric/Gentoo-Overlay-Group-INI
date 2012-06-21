@@ -10,7 +10,6 @@ use Path::Class::Dir;
 use File::HomeDir;
 use Gentoo::Overlay::Exceptions;
 
-
 =head1 SYNOPSIS
 
 Generates a L<< C<Gentoo::Overlay::B<Group>> object|Gentoo::Overlay::Group >> using a configuration file from your environment.
@@ -97,6 +96,7 @@ sub _init_cf_paths {
   }
   return $cfg_paths;
 }
+
 =p_func _enumerate_file_list
 
 Returns a list of file paths to check, in the order they should be checked.
@@ -104,9 +104,11 @@ Returns a list of file paths to check, in the order they should be checked.
   my @list = _enumerate_file_list();
 
 =cut
+
 sub _enumerate_file_list {
-  return map { $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') } @{_cf_paths()};
+  return map { $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') } @{ _cf_paths() };
 }
+
 =p_func _first_config_file
 
 Returns the path to the first file that exists.
@@ -114,6 +116,7 @@ Returns the path to the first file that exists.
   my $first = _first_config_file();
 
 =cut
+
 sub _first_config_file {
   for my $file (_enumerate_file_list) {
     return $file if -e -f $file;
@@ -124,6 +127,7 @@ sub _first_config_file {
     payload => { paths => ( join q{}, map { "    $_\n" } _enumerate_file_list ), }
   );
 }
+
 =c_method
 
 Returns a working Overlay::Group object.
@@ -132,6 +136,7 @@ Returns a working Overlay::Group object.
 
 
 =cut
+
 sub load {
   my ($self) = shift;
   require Config::MVP::Reader;
@@ -140,16 +145,14 @@ sub load {
   require Gentoo::Overlay::Group::INI::Section;
   my $reader = Config::MVP::Reader::INI->new();
 
-  my $asm    = Gentoo::Overlay::Group::INI::Assembler->new(
-    section_class => 'Gentoo::Overlay::Group::INI::Section',
-  );
+  my $asm = Gentoo::Overlay::Group::INI::Assembler->new( section_class => 'Gentoo::Overlay::Group::INI::Section', );
 
   my $cnf = _first_config_file();
 
   my $seq = $reader->read_config( $cnf, { assembler => $asm } );
   require Gentoo::Overlay::Group;
   my $group = Gentoo::Overlay::Group->new();
-  $group->add_overlay( $_ ) for $seq->{sections}->{Overlays}->construct->directories;
+  $group->add_overlay($_) for $seq->{sections}->{Overlays}->construct->directories;
   return $group;
 
 }

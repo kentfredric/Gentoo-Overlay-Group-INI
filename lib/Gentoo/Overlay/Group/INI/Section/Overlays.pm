@@ -11,14 +11,12 @@ sub mvp_multivalue_args {
   return qw( directory );
 }
 
-has '_directories' => ( 
+has '_directories' => (
   init_arg => 'directory',
-  isa => 'ArrayRef[ Str ]',
-  is => 'rw',
-  traits => [qw( Array )],
-  handles => {
-    directories => elements =>,
-  },
+  isa      => 'ArrayRef[ Str ]',
+  is       => 'rw',
+  traits   => [qw( Array )],
+  handles  => { directories => elements =>, },
 );
 
 __PACKAGE__->meta->make_immutable;
