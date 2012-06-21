@@ -9,10 +9,12 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::Assembler::VERSION = '0.1.0';
 }
 
-# ABSTRACT:
+# ABSTRACT: Glue record for Config::MVP
+
 
 use Moose;
 extends 'Config::MVP::Assembler';
+
 
 sub expand_package {
   return "Gentoo::Overlay::Group::INI::Section::$_[1]";
@@ -30,11 +32,28 @@ __END__
 
 =head1 NAME
 
-Gentoo::Overlay::Group::INI::Assembler - use Moose;
+Gentoo::Overlay::Group::INI::Assembler - Glue record for Config::MVP
 
 =head1 VERSION
 
 version 0.1.0
+
+=head1 DESCRIPTION
+
+This is a glue layer. We pass Config::MVP an instance of this class, and it tells Config::MVP
+that top level section declarations are to be expanded as children of Gentoo::Overlay::Group::INI::Section::
+
+=head1 METHODS
+
+=head2 expand_package
+
+  ini file:
+
+[Moo]
+
+-->
+
+  $asm->expand_package('Moo'); # Gentoo::Overlay::Group::INI::Section::Moo
 
 =head1 AUTHOR
 

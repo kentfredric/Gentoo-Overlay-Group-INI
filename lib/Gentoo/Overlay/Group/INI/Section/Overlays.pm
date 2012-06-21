@@ -9,9 +9,11 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::Section::Overlays::VERSION = '0.1.0';
 }
 
-# ABSTRACT:
+# ABSTRACT: Final Target for [Overlays] sections.
 
 use Moose;
+
+
 
 sub mvp_multivalue_args {
   return qw( directory );
@@ -37,11 +39,28 @@ __END__
 
 =head1 NAME
 
-Gentoo::Overlay::Group::INI::Section::Overlays - use Moose;
+Gentoo::Overlay::Group::INI::Section::Overlays - Final Target for [Overlays] sections.
 
 =head1 VERSION
 
 version 0.1.0
+
+=head1 SYNOPSIS
+
+  [Overlays]
+  directory = a
+  directory = b
+  directory = c
+
+This is eventually parsed and decoded into one of these objects.
+
+  my @directories = ( $object->directories ); # ( a, b, c )
+
+=head1 METHODS
+
+=head2 mvp_multivalue_args
+
+Tells Config::MVP that C<directory> can be specified multiple times.
 
 =head1 AUTHOR
 

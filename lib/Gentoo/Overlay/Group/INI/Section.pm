@@ -9,10 +9,12 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::Section::VERSION = '0.1.0';
 }
 
-# ABSTRACT:
+# ABSTRACT: Storage container for Parsed/Decoded Config::MVP sections.
+
 
 use Moose;
 extends 'Config::MVP::Section';
+
 
 sub construct {
   my ($self)    = @_;
@@ -33,11 +35,23 @@ __END__
 
 =head1 NAME
 
-Gentoo::Overlay::Group::INI::Section - use Moose;
+Gentoo::Overlay::Group::INI::Section - Storage container for Parsed/Decoded Config::MVP sections.
 
 =head1 VERSION
 
 version 0.1.0
+
+=head1 DESCRIPTION
+
+Parsed Sections are blessed into this class structure.
+
+=head1 METHODS
+
+=head2 construct
+
+  my $object = $section->construct();
+
+Inflates the Object specification ( this section ) into the target object.
 
 =head1 AUTHOR
 
