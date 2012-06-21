@@ -27,7 +27,7 @@ sub _cf_paths {
 }
 
 
-sub _init_cf_paths {
+sub _init_cf_paths { ## no critic (RegularExpressions)
 
   my $cfg_paths = [
     Path::Class::Dir->new( File::HomeDir->my_dist_config('Gentoo-Overlay-Group-INI') ),
