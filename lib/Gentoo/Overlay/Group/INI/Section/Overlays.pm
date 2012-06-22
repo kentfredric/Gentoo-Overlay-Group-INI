@@ -38,6 +38,14 @@ has '_directories' => (
   handles  => { directories => elements =>, },
 );
 
+=method overlay_group
+
+Convert the data stored in this section into a Gentoo::Overlay::Group object.
+
+  $group = $section->overlay_group;
+
+=cut
+
 sub overlay_group {
   my ( $self, @rest ) = @_;
   require Gentoo::Overlay::Group;

@@ -171,7 +171,7 @@ sub load_named {
   return $section;
 }
 
-=c_method load_all_isa
+=c_method load_all_does
 
 Return all sections in a config file that C<do> the given role.
 
@@ -185,8 +185,8 @@ sub load_all_does {
   $config //= {};
   my $real_role = String::RewritePrefix->rewrite(
     {
-      '::' => 'Gentoo::Overlay::Group::INI::Section::',
-      ''   => '',
+      q{::} => q{Gentoo::Overlay::Group::INI::Section::},
+      q{}   => q{},
     },
     $role,
   );
@@ -215,8 +215,8 @@ sub load_all_isa {
 
   my $real_class = String::RewritePrefix->rewrite(
     {
-      '::' => 'Gentoo::Overlay::Group::INI::Section::',
-      ''   => '',
+      q{::} => q{Gentoo::Overlay::Group::INI::Section::},
+      q{}   => q{},
     },
     $class,
   );
