@@ -1,11 +1,14 @@
 Release history for Gentoo-Overlay-Group-INI
 
 {{$NEXT}}
+ [Dependencies::Runtime]
+ - new : String::RewritePrefix
 
  [Features]
- - added ->load_named( $name, $config );
- - added ->load_all_isa( $isa, $config );
- - added ->load_all_does( $role, $config );
+ - added INI->load_named( $name, $config );
+ - added INI->load_all_isa( $isa, $config );
+ - added INI->load_all_does( $role, $config );
+ - added Overlays->overlay_group();
 
  [Internals]
  - moved section <-> group transformer into section code.
