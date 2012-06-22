@@ -28,16 +28,16 @@ no_index:
 provides:
   Gentoo::Overlay::Group::INI:
     file: lib/Gentoo/Overlay/Group/INI.pm
-    version: v0.2.0
+    version: v0.2.1
   Gentoo::Overlay::Group::INI::Assembler:
     file: lib/Gentoo/Overlay/Group/INI/Assembler.pm
-    version: v0.2.0
+    version: v0.2.1
   Gentoo::Overlay::Group::INI::Section:
     file: lib/Gentoo/Overlay/Group/INI/Section.pm
-    version: v0.2.0
+    version: v0.2.1
   Gentoo::Overlay::Group::INI::Section::Overlays:
     file: lib/Gentoo/Overlay/Group/INI/Section/Overlays.pm
-    version: v0.2.0
+    version: v0.2.1
 requires:
   Config::MVP::Assembler: 0
   Config::MVP::Reader: 0
@@ -55,7 +55,7 @@ requires:
 resources:
   homepage: https://github.com/kentfredric/Gentoo-Overlay-Group-INI
   repository: https://github.com/kentfredric/Gentoo-Overlay-Group-INI.git
-version: 0.2.0
+version: 0.2.1
 x_BuiltWith:
   modules:
     Config::MVP::Assembler: 2.200002

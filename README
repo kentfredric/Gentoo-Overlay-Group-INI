@@ -3,7 +3,7 @@ NAME
     configuration file.
 
 VERSION
-    version 0.2.0
+    version 0.2.1
 
 SYNOPSIS
     Generates a "Gentoo::Overlay::Group" object using a configuration file
@@ -14,10 +14,10 @@ SYNOPSIS
 
     Currently, the following paths are checked:
 
-      ~/.perl/Gentoo-Overlay-Group-INI/config.ini
-      ~/.perl/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
-      ~/.config/Gentoo-Overlay-Group-INI/config.ini
-      ~/.config/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+      ~/.config/Perl/Gentoo-Overlay-Group-INI/config.ini #  'my_dist_config' dir
+      ~/.config/Perl/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+      ~/.local/share/Perl/dist/Gentoo-Overlay-Group-INI/config.ini  # 'my_dist_data' dir
+      ~/.local/share/Perl/dist/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
       /etc/Gentoo-Overlay-Group-INI/config.ini
       /etc/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
 

@@ -142,7 +142,7 @@
 Gentoo::Overlay::Group::INI \- Load a list of overlays defined in a configuration file.
 .SH "VERSION"
 .IX Header "VERSION"
-version 0.2.0
+version 0.2.1
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 Generates a \f(CW\*(C`Gentoo::Overlay::\f(CBGroup\f(CW\*(C'\fR object using a configuration file from your environment.
@@ -155,10 +155,10 @@ Generates a \f(CW\*(C`Gentoo::Overlay::\f(CBGroup\f(CW\*(C'\fR object using a co
 Currently, the following paths are checked:
 .PP
 .Vb 6
-\&  ~/.perl/Gentoo\-Overlay\-Group\-INI/config.ini
-\&  ~/.perl/Gentoo\-Overlay\-Group\-INI/Gentoo\-Overlay\-Group\-INI.ini
-\&  ~/.config/Gentoo\-Overlay\-Group\-INI/config.ini
-\&  ~/.config/Gentoo\-Overlay\-Group\-INI/Gentoo\-Overlay\-Group\-INI.ini
+\&  ~/.config/Perl/Gentoo\-Overlay\-Group\-INI/config.ini #  \*(Aqmy_dist_config\*(Aq dir
+\&  ~/.config/Perl/Gentoo\-Overlay\-Group\-INI/Gentoo\-Overlay\-Group\-INI.ini
+\&  ~/.local/share/Perl/dist/Gentoo\-Overlay\-Group\-INI/config.ini  # \*(Aqmy_dist_data\*(Aq dir
+\&  ~/.local/share/Perl/dist/Gentoo\-Overlay\-Group\-INI/Gentoo\-Overlay\-Group\-INI.ini
 \&  /etc/Gentoo\-Overlay\-Group\-INI/config.ini
 \&  /etc/Gentoo\-Overlay\-Group\-INI/Gentoo\-Overlay\-Group\-INI.ini
 .Ve

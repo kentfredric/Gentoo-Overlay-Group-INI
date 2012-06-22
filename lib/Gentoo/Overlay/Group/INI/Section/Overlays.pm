@@ -6,7 +6,7 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::Section::Overlays::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Gentoo::Overlay::Group::INI::Section::Overlays::VERSION = '0.2.0';
+  $Gentoo::Overlay::Group::INI::Section::Overlays::VERSION = '0.2.1';
 }
 
 # ABSTRACT: Final Target for [Overlays] sections.
@@ -54,7 +54,7 @@ Gentoo::Overlay::Group::INI::Section::Overlays - Final Target for [Overlays] sec
 
 =head1 VERSION
 
-version 0.2.0
+version 0.2.1
 
 =head1 SYNOPSIS
 

@@ -14,7 +14,7 @@ my @overlays = ( $base->subdir("overlay_4")->stringify, $base->subdir("overlay_5
 use File::Tempdir;
 
 my $tmpdir = File::Tempdir->new();
-
+my $homedir = File::Tempdir->new();
 my $dir = dir( $tmpdir->name );
 
 open my $fh, '>', $dir->file('config.ini')->stringify;
@@ -29,7 +29,7 @@ $fh->flush;
 $fh->close;
 
 local $ENV{GENTOO_OVERLAY_GROUP_INI_PATH} = $dir->stringify;
-
+local $ENV{HOME} = $homedir->name;
 # FILENAME: basic.t
 # CREATED: 22/06/12 07:13:46 by Kent Fredric (kentnl) <kentfredric@gmail.com>
 # ABSTRACT: Test basic functionality

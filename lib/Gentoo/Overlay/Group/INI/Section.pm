@@ -6,7 +6,7 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::Section::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Gentoo::Overlay::Group::INI::Section::VERSION = '0.2.0';
+  $Gentoo::Overlay::Group::INI::Section::VERSION = '0.2.1';
 }
 
 # ABSTRACT: Storage container for Parsed/Decoded Config::MVP sections.
@@ -39,7 +39,7 @@ Gentoo::Overlay::Group::INI::Section - Storage container for Parsed/Decoded Conf
 
 =head1 VERSION
 
-version 0.2.0
+version 0.2.1
 
 =head1 DESCRIPTION
 
