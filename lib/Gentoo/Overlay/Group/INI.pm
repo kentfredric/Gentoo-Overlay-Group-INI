@@ -8,7 +8,7 @@ package Gentoo::Overlay::Group::INI;
 use Moose;
 use Path::Class::Dir;
 use File::HomeDir;
-use Gentoo::Overlay::Exceptions;
+use Gentoo::Overlay::Exceptions qw( :all );
 
 =head1 SYNOPSIS
 
@@ -19,10 +19,10 @@ Generates a L<< C<Gentoo::Overlay::B<Group>> object|Gentoo::Overlay::Group >> us
 
 Currently, the following paths are checked:
 
-  ~/.perl/Gentoo-Overlay-Group-INI/config.ini
-  ~/.perl/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
-  ~/.config/Gentoo-Overlay-Group-INI/config.ini
-  ~/.config/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+  ~/.config/Perl/Gentoo-Overlay-Group-INI/config.ini #  'my_dist_config' dir
+  ~/.config/Perl/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+  ~/.local/share/Perl/dist/Gentoo-Overlay-Group-INI/config.ini  # 'my_dist_data' dir
+  ~/.local/share/Perl/dist/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
   /etc/Gentoo-Overlay-Group-INI/config.ini
   /etc/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
 
@@ -77,8 +77,8 @@ Return the hard-coded array ref of paths to use, or parses C<$ENV{GENTOO_OVERLAY
 ## no critic (RegularExpressions)
 sub _init_cf_paths {
   my $cfg_paths = [
-    Path::Class::Dir->new( File::HomeDir->my_dist_config('Gentoo-Overlay-Group-INI') ),
-    Path::Class::Dir->new( File::HomeDir->my_data )->subdir( '.config', 'Gentoo-Overlay-Group-INI' ),
+    Path::Class::Dir->new( File::HomeDir->my_dist_config( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
+    Path::Class::Dir->new( File::HomeDir->my_dist_data( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
     Path::Class::Dir->new('/etc/Gentoo-Overlay-Group-INI'),
   ];
 

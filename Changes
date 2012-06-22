@@ -1,6 +1,13 @@
 Release history for Gentoo-Overlay-Group-INI
 
 {{$NEXT}}
+ [Bug Fixes]
+ - Exceptions needs qw( :all ) to export the exception() util.
+ - File::HomeDir paths changed because XDG systems are weird.
+
+ [Tests]
+ - A File::Tempdir is now configured and assigned to $ENV{HOME} internally
+   for testing as tests will create those paths.
 
 0.2.0 2012-06-22T06:15:18Z
  [Dependencies::Runtime]
