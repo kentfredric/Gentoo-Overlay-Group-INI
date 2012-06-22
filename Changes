@@ -1,6 +1,8 @@
 Release history for Gentoo-Overlay-Group-INI
 
 {{$NEXT}}
+
+0.2.1 2012-06-22T07:29:54Z
  [Bug Fixes]
  - Exceptions needs qw( :all ) to export the exception() util.
  - File::HomeDir paths changed because XDG systems are weird.
