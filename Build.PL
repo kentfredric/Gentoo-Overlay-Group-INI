@@ -25,7 +25,7 @@ my %module_build_args = (
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "Gentoo-Overlay-Group-INI",
-  "dist_version" => "0.1.0",
+  "dist_version" => "0.2.0",
   "license" => "perl",
   "module_name" => "Gentoo::Overlay::Group::INI",
   "recommends" => {},
@@ -40,6 +40,7 @@ my %module_build_args = (
     "Gentoo::Overlay::Group" => 0,
     "Moose" => 0,
     "Path::Class::Dir" => 0,
+    "String::RewritePrefix" => 0,
     "perl" => "v5.10.0",
     "strict" => 0,
     "warnings" => 0

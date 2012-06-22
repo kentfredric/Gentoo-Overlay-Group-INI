@@ -49,6 +49,7 @@
             "Gentoo::Overlay::Group" : "0",
             "Moose" : "0",
             "Path::Class::Dir" : "0",
+            "String::RewritePrefix" : "0",
             "perl" : "v5.10.0",
             "strict" : "0",
             "warnings" : "0"
@@ -58,19 +59,19 @@
    "provides" : {
       "Gentoo::Overlay::Group::INI" : {
          "file" : "lib/Gentoo/Overlay/Group/INI.pm",
-         "version" : "v0.1.0"
+         "version" : "v0.2.0"
       },
       "Gentoo::Overlay::Group::INI::Assembler" : {
          "file" : "lib/Gentoo/Overlay/Group/INI/Assembler.pm",
-         "version" : "v0.1.0"
+         "version" : "v0.2.0"
       },
       "Gentoo::Overlay::Group::INI::Section" : {
          "file" : "lib/Gentoo/Overlay/Group/INI/Section.pm",
-         "version" : "v0.1.0"
+         "version" : "v0.2.0"
       },
       "Gentoo::Overlay::Group::INI::Section::Overlays" : {
          "file" : "lib/Gentoo/Overlay/Group/INI/Section/Overlays.pm",
-         "version" : "v0.1.0"
+         "version" : "v0.2.0"
       }
    },
    "release_status" : "stable",
@@ -80,7 +81,7 @@
          "url" : "https://github.com/kentfredric/Gentoo-Overlay-Group-INI.git"
       }
    },
-   "version" : "0.1.0",
+   "version" : "0.2.0",
    "x_BuiltWith" : {
       "modules" : {
          "Config::MVP::Assembler" : "2.200002",
@@ -100,6 +101,7 @@
          "Moose" : "2.0602",
          "Path::Class" : "0.25",
          "Path::Class::Dir" : "0.25",
+         "String::RewritePrefix" : "0.006",
          "Test::Fatal" : "0.010",
          "Test::More" : "0.98",
          "autodie" : "2.11",

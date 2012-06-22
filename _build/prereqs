@@ -17,6 +17,7 @@ do{ my $x = {
                        'Config::MVP::Assembler' => 0,
                        'Gentoo::Overlay::Group' => 0,
                        'File::HomeDir' => 0,
+                       'String::RewritePrefix' => 0,
                        'Config::MVP::Reader' => 0,
                        'Config::MVP::Section' => 0,
                        'strict' => 0,

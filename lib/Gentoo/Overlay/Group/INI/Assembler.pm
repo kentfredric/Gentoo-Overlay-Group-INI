@@ -6,7 +6,7 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::Assembler::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Gentoo::Overlay::Group::INI::Assembler::VERSION = '0.1.0';
+  $Gentoo::Overlay::Group::INI::Assembler::VERSION = '0.2.0';
 }
 
 # ABSTRACT: Glue record for Config::MVP
@@ -36,7 +36,7 @@ Gentoo::Overlay::Group::INI::Assembler - Glue record for Config::MVP
 
 =head1 VERSION
 
-version 0.1.0
+version 0.2.0
 
 =head1 DESCRIPTION
 

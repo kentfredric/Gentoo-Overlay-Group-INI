@@ -142,7 +142,7 @@
 Gentoo::Overlay::Group::INI \- Load a list of overlays defined in a configuration file.
 .SH "VERSION"
 .IX Header "VERSION"
-version 0.1.0
+version 0.2.0
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 Generates a \f(CW\*(C`Gentoo::Overlay::\f(CBGroup\f(CW\*(C'\fR object using a configuration file from your environment.
@@ -192,6 +192,31 @@ Returns a working Overlay::Group object.
 .Vb 1
 \&  my $group = Gentoo::Overlay::Group::INI\->load();
 .Ve
+.SS "load_named"
+.IX Subsection "load_named"
+Return an inflated arbitrary section:
+.PP
+.Vb 5
+\&  # A "self\-named" overlay section
+\&  my $section = Gentoo::Overlay::Group::INI\->load_named(\*(AqOverlay\*(Aq);
+\&  # A \*(Aqcustom named overlay section, ie:
+\&  # [ Overlay / foo ]
+\&  my $section = Gentoo::Overlay::Group::INI\->load_named(\*(Aqfoo\*(Aq);
+.Ve
+.SS "load_all_does"
+.IX Subsection "load_all_does"
+Return all sections in a config file that \f(CW\*(C`do\*(C'\fR the given role.
+.PP
+.Vb 1
+\&  my ( @sections ) = Gentoo::Overlay::Group::INI\->load_all_does(\*(AqSome::Role\*(Aq);
+.Ve
+.SS "load_all_isa"
+.IX Subsection "load_all_isa"
+Return all sections in a config file that inherit the given class.
+.PP
+.Vb 1
+\&  my ( @sections ) = Gentoo::Overlay::Group::INI\->load_all_isa(\*(AqGentoo::Overlay::Group::Section::Overlay\*(Aq);
+.Ve
 .SH "PACKAGE VARIABLES"
 .IX Header "PACKAGE VARIABLES"
 .ie n .SS "$CFG_PATHS"
@@ -228,6 +253,10 @@ Returns the path to the first file that exists.
 .Vb 1
 \&  my $first = _first_config_file();
 .Ve
+.SH "PRIVATE METHODS"
+.IX Header "PRIVATE METHODS"
+.SS "_parse"
+.IX Subsection "_parse"
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Kent Fredric <kentnl@cpan.org>

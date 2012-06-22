@@ -3,7 +3,7 @@ NAME
     configuration file.
 
 VERSION
-    version 0.1.0
+    version 0.2.0
 
 SYNOPSIS
     Generates a "Gentoo::Overlay::Group" object using a configuration file
@@ -46,6 +46,25 @@ CLASS METHODS
 
       my $group = Gentoo::Overlay::Group::INI->load();
 
+  load_named
+    Return an inflated arbitrary section:
+
+      # A "self-named" overlay section
+      my $section = Gentoo::Overlay::Group::INI->load_named('Overlay');
+      # A 'custom named overlay section, ie:
+      # [ Overlay / foo ]
+      my $section = Gentoo::Overlay::Group::INI->load_named('foo');
+
+  load_all_does
+    Return all sections in a config file that "do" the given role.
+
+      my ( @sections ) = Gentoo::Overlay::Group::INI->load_all_does('Some::Role');
+
+  load_all_isa
+    Return all sections in a config file that inherit the given class.
+
+      my ( @sections ) = Gentoo::Overlay::Group::INI->load_all_isa('Gentoo::Overlay::Group::Section::Overlay');
+
 PACKAGE VARIABLES
   $CFG_PATHS
     An array ref of Path::Class::Dir objects to scan for config files.
@@ -73,6 +92,8 @@ PRIVATE FUNCTIONS
 
       my $first = _first_config_file();
 
+PRIVATE METHODS
+  _parse
 AUTHOR
     Kent Fredric <kentnl@cpan.org>
 

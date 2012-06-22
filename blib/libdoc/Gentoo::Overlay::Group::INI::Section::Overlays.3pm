@@ -142,7 +142,7 @@
 Gentoo::Overlay::Group::INI::Section::Overlays \- Final Target for [Overlays] sections.
 .SH "VERSION"
 .IX Header "VERSION"
-version 0.1.0
+version 0.2.0
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .Vb 4
@@ -162,6 +162,13 @@ This is eventually parsed and decoded into one of these objects.
 .SS "mvp_multivalue_args"
 .IX Subsection "mvp_multivalue_args"
 Tells Config::MVP that \f(CW\*(C`directory\*(C'\fR can be specified multiple times.
+.SS "overlay_group"
+.IX Subsection "overlay_group"
+Convert the data stored in this section into a Gentoo::Overlay::Group object.
+.PP
+.Vb 1
+\&  $group = $section\->overlay_group;
+.Ve
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Kent Fredric <kentnl@cpan.org>

@@ -1,5 +1,19 @@
 Release history for Gentoo-Overlay-Group-INI
 
+0.2.0 2012-06-22T06:15:18Z
+ [Dependencies::Runtime]
+ - new : String::RewritePrefix
+
+ [Features]
+ - added INI->load_named( $name, $config );
+ - added INI->load_all_isa( $isa, $config );
+ - added INI->load_all_does( $role, $config );
+ - added Overlays->overlay_group();
+
+ [Internals]
+ - moved section <-> group transformer into section code.
+ - broke internals of ->load into ->_parse
+
 0.1.0 2012-06-21T21:05:59Z
  - First version.
 
