@@ -38,6 +38,16 @@ has '_directories' => (
   handles  => { directories => elements =>, },
 );
 
+sub overlay_group {
+  my ( $self, @rest ) = @_;
+  require Gentoo::Overlay::Group;
+  my $group = Gentoo::Overlay::Group->new();
+  for my $path ( $self->directories ) {
+    $group->add_overlay($path);
+  }
+  return $group;
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 

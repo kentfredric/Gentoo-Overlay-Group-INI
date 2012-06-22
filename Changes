@@ -2,6 +2,15 @@ Release history for Gentoo-Overlay-Group-INI
 
 {{$NEXT}}
 
+ [Features]
+ - added ->load_named( $name, $config );
+ - added ->load_all_isa( $isa, $config );
+ - added ->load_all_does( $role, $config );
+
+ [Internals]
+ - moved section <-> group transformer into section code.
+ - broke internals of ->load into ->_parse
+
 0.1.0 2012-06-21T21:05:59Z
  - First version.
 

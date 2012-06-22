@@ -139,23 +139,114 @@ Returns a working Overlay::Group object.
 =cut
 
 sub load {
-  my ($self) = shift;
+  my ($self) = @_;
+
+  my $seq = $self->_parse();
+
+  return $seq->section_named('Overlays')->construct->overlay_group;
+
+}
+
+=c_method load_named
+
+Return an inflated arbitrary section:
+
+  # A "self-named" overlay section
+  my $section = Gentoo::Overlay::Group::INI->load_named('Overlay');
+  # A 'custom named overlay section, ie:
+  # [ Overlay / foo ]
+  my $section = Gentoo::Overlay::Group::INI->load_named('foo');
+
+=cut
+
+sub load_named {
+  my ( $self, $name, $config ) = @_;
+  $config //= {};
+  my $seq     = $self->_parse();
+  my $section = $seq->section_named($name);
+  return unless defined $section;
+  if ( not defined $config->{'-inflate'} or $config->{'-inflate'} ) {
+    return $section->construct;
+  }
+  return $section;
+}
+
+=c_method load_all_isa
+
+Return all sections in a config file that C<do> the given role.
+
+  my ( @sections ) = Gentoo::Overlay::Group::INI->load_all_does('Some::Role');
+
+=cut
+
+sub load_all_does {
+  my ( $self, $role, $config ) = @_;
+
+  $config //= {};
+  my $real_role = String::RewritePrefix->rewrite(
+    {
+      '::' => 'Gentoo::Overlay::Group::INI::Section::',
+      ''   => '',
+    },
+    $role,
+  );
+
+  my $seq = $self->_parse();
+  my (@items) = grep { $_->package->does($real_role) } $seq->sections;
+  if ( not defined $config->{'-inflate'} or $config->{'-inflate'} ) {
+    return map { $_->construct } @items;
+  }
+  return @items;
+
+}
+
+=c_method load_all_isa
+
+Return all sections in a config file that inherit the given class.
+
+  my ( @sections ) = Gentoo::Overlay::Group::INI->load_all_isa('Gentoo::Overlay::Group::Section::Overlay');
+
+
+=cut
+
+sub load_all_isa {
+  my ( $self, $class, $config ) = @_;
+  require String::RewritePrefix;
+
+  my $real_class = String::RewritePrefix->rewrite(
+    {
+      '::' => 'Gentoo::Overlay::Group::INI::Section::',
+      ''   => '',
+    },
+    $class,
+  );
+  $config //= {};
+  my $seq = $self->_parse();
+  my (@items) = grep { $_->package->isa($real_class) } $seq->sections;
+  if ( not defined $config->{'-inflate'} or $config->{'-inflate'} ) {
+    return map { $_->construct } @items;
+  }
+  return @items;
+
+}
+
+=p_method _parse
+
+=cut
+
+sub _parse {
   require Config::MVP::Reader;
   require Config::MVP::Reader::INI;
   require Gentoo::Overlay::Group::INI::Assembler;
   require Gentoo::Overlay::Group::INI::Section;
+
   my $reader = Config::MVP::Reader::INI->new();
 
   my $asm = Gentoo::Overlay::Group::INI::Assembler->new( section_class => 'Gentoo::Overlay::Group::INI::Section', );
 
   my $cnf = _first_config_file();
 
-  my $seq = $reader->read_config( $cnf, { assembler => $asm } );
-  require Gentoo::Overlay::Group;
-  my $group = Gentoo::Overlay::Group->new();
-  $group->add_overlay($_) for $seq->{sections}->{Overlays}->construct->directories;
-  return $group;
-
+  return $reader->read_config( $cnf, { assembler => $asm } );
 }
 
 __PACKAGE__->meta->make_immutable;
