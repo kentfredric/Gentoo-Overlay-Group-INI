@@ -6,13 +6,13 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Gentoo::Overlay::Group::INI::VERSION = '0.2.1';
+  $Gentoo::Overlay::Group::INI::VERSION = '0.2.2';
 }
 
 # ABSTRACT: Load a list of overlays defined in a configuration file.
 
 use Moose;
-use Path::Class::Dir;
+use Path::Tiny;
 use File::HomeDir;
 use Gentoo::Overlay::Exceptions qw( :all );
 
@@ -30,9 +30,9 @@ sub _cf_paths {
 ## no critic (RegularExpressions)
 sub _init_cf_paths {
   my $cfg_paths = [
-    Path::Class::Dir->new( File::HomeDir->my_dist_config( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
-    Path::Class::Dir->new( File::HomeDir->my_dist_data( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
-    Path::Class::Dir->new('/etc/Gentoo-Overlay-Group-INI'),
+    Path::Tiny::path( File::HomeDir->my_dist_config( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
+    Path::Tiny::path( File::HomeDir->my_dist_data( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
+    Path::Tiny::path('/etc/Gentoo-Overlay-Group-INI'),
   ];
 
   return $cfg_paths if not exists $ENV{GENTOO_OVERLAY_GROUP_INI_PATH};
@@ -42,10 +42,10 @@ sub _init_cf_paths {
   for my $path ( split /:/, $ENV{GENTOO_OVERLAY_GROUP_INI_PATH} ) {
     if ( $path =~ /^~\// ) {
       $path =~ s{^~/}{};
-      push @{$cfg_paths}, Path::Class::Dir->new( File::HomeDir->my_home )->dir($path);
+      push @{$cfg_paths}, Path::Tiny::path( File::HomeDir->my_home )->child($path);
       next;
     }
-    push @{$cfg_paths}, Path::Class::Dir->new($path);
+    push @{$cfg_paths}, Path::Tiny::path($path);
   }
   return $cfg_paths;
 }
@@ -53,7 +53,7 @@ sub _init_cf_paths {
 
 
 sub _enumerate_file_list {
-  return map { ( $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') ) } @{ _cf_paths() };
+  return map { ( $_->child('config.ini'), $_->child('Gentoo-Overlay-Group-INI.ini') ) } @{ _cf_paths() };
 }
 
 
@@ -157,6 +157,7 @@ no Moose;
 1;
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -167,7 +168,7 @@ Gentoo::Overlay::Group::INI - Load a list of overlays defined in a configuration
 
 =head1 VERSION
 
-version 0.2.1
+version 0.2.2
 
 =head1 SYNOPSIS
 
@@ -236,7 +237,7 @@ Return all sections in a config file that inherit the given class.
 
 =head2 $CFG_PATHS
 
-An array ref of Path::Class::Dir objects to scan for config files.
+An array ref of Path::Tiny objects to scan for config files.
 
 =head1 PRIVATE FUNCTIONS
 
@@ -274,10 +275,9 @@ Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
+This software is copyright (c) 2013 by Kent Fredric <kentnl@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

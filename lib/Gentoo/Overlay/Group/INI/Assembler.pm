@@ -6,7 +6,7 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::Assembler::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Gentoo::Overlay::Group::INI::Assembler::VERSION = '0.2.1';
+  $Gentoo::Overlay::Group::INI::Assembler::VERSION = '0.2.2';
 }
 
 # ABSTRACT: Glue record for Config::MVP
@@ -26,6 +26,7 @@ no Moose;
 1;
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -36,7 +37,7 @@ Gentoo::Overlay::Group::INI::Assembler - Glue record for Config::MVP
 
 =head1 VERSION
 
-version 0.2.1
+version 0.2.2
 
 =head1 DESCRIPTION
 
@@ -61,10 +62,9 @@ Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
+This software is copyright (c) 2013 by Kent Fredric <kentnl@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

@@ -6,7 +6,7 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::Section::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Gentoo::Overlay::Group::INI::Section::VERSION = '0.2.1';
+  $Gentoo::Overlay::Group::INI::Section::VERSION = '0.2.2';
 }
 
 # ABSTRACT: Storage container for Parsed/Decoded Config::MVP sections.
@@ -29,6 +29,7 @@ no Moose;
 1;
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -39,7 +40,7 @@ Gentoo::Overlay::Group::INI::Section - Storage container for Parsed/Decoded Conf
 
 =head1 VERSION
 
-version 0.2.1
+version 0.2.2
 
 =head1 DESCRIPTION
 
@@ -59,10 +60,9 @@ Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
+This software is copyright (c) 2013 by Kent Fredric <kentnl@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

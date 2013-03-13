@@ -1,31 +1,30 @@
 do{ my $x = {
+       'recommends' => {},
        'build_requires' => {
-                             'File::Tempdir' => 0,
-                             'FindBin' => 0,
-                             'Test::Fatal' => 0,
-                             'Test::More' => '0.88',
                              'File::Find' => 0,
+                             'Test::More' => '0.98',
+                             'FindBin' => 0,
+                             'File::Tempdir' => 0,
                              'File::Temp' => 0,
+                             'Test::Fatal' => 0,
                              'autodie' => 0,
-                             'Path::Class' => 0,
-                             'Module::Build' => '0.3601'
+                             'Module::Build' => '0.4003'
                            },
-       'conflicts' => {},
        'requires' => {
-                       'warnings' => 0,
-                       'Config::MVP::Reader::INI' => 0,
-                       'Config::MVP::Assembler' => 0,
-                       'Gentoo::Overlay::Group' => 0,
-                       'File::HomeDir' => 0,
-                       'String::RewritePrefix' => 0,
-                       'Config::MVP::Reader' => 0,
                        'Config::MVP::Section' => 0,
-                       'strict' => 0,
-                       'perl' => 'v5.10.0',
+                       'Path::Tiny' => 0,
                        'Gentoo::Overlay::Exceptions' => 0,
-                       'Path::Class::Dir' => 0,
-                       'Moose' => 0
+                       'Config::MVP::Assembler' => 0,
+                       'strict' => 0,
+                       'String::RewritePrefix' => 0,
+                       'warnings' => 0,
+                       'Gentoo::Overlay::Group' => 0,
+                       'Config::MVP::Reader' => 0,
+                       'File::HomeDir' => 0,
+                       'Config::MVP::Reader::INI' => 0,
+                       'Moose' => 0,
+                       'perl' => 'v5.10.0'
                      },
-       'recommends' => {}
+       'conflicts' => {}
      };
 $x; }
