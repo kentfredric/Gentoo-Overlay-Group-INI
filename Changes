@@ -1,18 +1,17 @@
 Release history for Gentoo-Overlay-Group-INI
 
-0.2.2 2013-03-13T08:30:06Z
+0.2.2 2013-03-13T08:32:43Z
  [!Noteable Changes]
  - Use Path::Tiny
-
- [Documentation]
- - Update Copyright to 2013
- - Add README.mkdn
 
  [Dependencies::Changed / build requires]
  - Module::Build 0.3601 → 0.4003
 
  [Dependencies::Changed / configure requires]
  - Module::Build 0.3601 → 0.4003
+
+ [Dependencies::Changed / test requires]
+ - Test::More 0.88 → 0.98
 
  [Dependencies::New / develop requires]
  - Pod::Coverage::TrustPod
@@ -23,18 +22,19 @@ Release history for Gentoo-Overlay-Group-INI
 
  [Dependencies::New / develop suggests]
  - Dist::Zilla::PluginBundle::Author::KENTNL v1.3.0 → v1.7.0
- 
- [Dependencies::Removed / runtime requires]
- - Path::Class::Dir
 
  [Dependencies::New / runtime requires]
  - Path::Tiny
 
+ [Dependencies::Removed / runtime requires]
+ - Path::Class::Dir
+
  [Dependencies::Removed / test requires]
  - Path::Class
 
- [Dependencies::Changed / test requires]
- - Test::More 0.88 → 0.98 
+ [Documentation]
+ - Update Copyright to 2013
+ - Add README.mkdn
 
  [Meta]
  - bugtracker to github issues
