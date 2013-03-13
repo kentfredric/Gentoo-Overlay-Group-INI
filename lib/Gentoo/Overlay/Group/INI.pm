@@ -6,7 +6,7 @@ package Gentoo::Overlay::Group::INI;
 # ABSTRACT: Load a list of overlays defined in a configuration file.
 
 use Moose;
-use Path::Class::Dir;
+use Path::Tiny;
 use File::HomeDir;
 use Gentoo::Overlay::Exceptions qw( :all );
 
@@ -47,7 +47,7 @@ Format of the INI files is as follows:
 
 =pkg_var $CFG_PATHS
 
-An array ref of Path::Class::Dir objects to scan for config files.
+An array ref of Path::Tiny objects to scan for config files.
 
 =cut
 
@@ -77,9 +77,9 @@ Return the hard-coded array ref of paths to use, or parses C<$ENV{GENTOO_OVERLAY
 ## no critic (RegularExpressions)
 sub _init_cf_paths {
   my $cfg_paths = [
-    Path::Class::Dir->new( File::HomeDir->my_dist_config( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
-    Path::Class::Dir->new( File::HomeDir->my_dist_data( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
-    Path::Class::Dir->new('/etc/Gentoo-Overlay-Group-INI'),
+    Path::Tiny::path( File::HomeDir->my_dist_config( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
+    Path::Tiny::path( File::HomeDir->my_dist_data( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
+    Path::Tiny::path('/etc/Gentoo-Overlay-Group-INI'),
   ];
 
   return $cfg_paths if not exists $ENV{GENTOO_OVERLAY_GROUP_INI_PATH};
@@ -89,10 +89,10 @@ sub _init_cf_paths {
   for my $path ( split /:/, $ENV{GENTOO_OVERLAY_GROUP_INI_PATH} ) {
     if ( $path =~ /^~\// ) {
       $path =~ s{^~/}{};
-      push @{$cfg_paths}, Path::Class::Dir->new( File::HomeDir->my_home )->dir($path);
+      push @{$cfg_paths}, Path::Tiny::path( File::HomeDir->my_home )->child($path);
       next;
     }
-    push @{$cfg_paths}, Path::Class::Dir->new($path);
+    push @{$cfg_paths}, Path::Tiny::path($path);
   }
   return $cfg_paths;
 }
@@ -107,7 +107,7 @@ Returns a list of file paths to check, in the order they should be checked.
 =cut
 
 sub _enumerate_file_list {
-  return map { ( $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') ) } @{ _cf_paths() };
+  return map { ( $_->child('config.ini'), $_->child('Gentoo-Overlay-Group-INI.ini') ) } @{ _cf_paths() };
 }
 
 =p_func _first_config_file

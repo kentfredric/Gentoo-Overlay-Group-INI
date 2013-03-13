@@ -3,29 +3,29 @@ use warnings;
 
 use Test::More;
 use Test::Fatal;
-use Path::Class qw( dir file );
+use Path::Tiny qw( path );
 use FindBin;
 use autodie;
 
-my $base = dir("$FindBin::Bin/../corpus");
+my $base = path("$FindBin::Bin/../corpus");
 
-my @overlays = ( $base->subdir("overlay_4")->stringify, $base->subdir("overlay_5")->stringify,, );
+my @overlays = ( $base->child("overlay_4")->stringify, $base->child("overlay_5")->stringify,, );
 
 use File::Tempdir;
 
-my $tmpdir = File::Tempdir->new();
+my $tmpdir  = File::Tempdir->new();
 my $homedir = File::Tempdir->new();
 
-my $dir = dir( $tmpdir->name );
+my $dir = path( $tmpdir->name );
 
-open my $fh, '>', $dir->file('config.ini')->stringify;
+my $fh = $dir->child('config.ini')->openw;
 $fh->print("[Overlays]\n");
 $fh->print("directory = $_\n") for @overlays;
 $fh->flush;
 $fh->close;
 
 local $ENV{GENTOO_OVERLAY_GROUP_INI_PATH} = $dir->stringify;
-local $ENV{HOME} = $homedir->name;
+local $ENV{HOME}                          = $homedir->name;
 
 # FILENAME: basic.t
 # CREATED: 22/06/12 07:13:46 by Kent Fredric (kentnl) <kentfredric@gmail.com>
