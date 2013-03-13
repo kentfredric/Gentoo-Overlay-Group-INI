@@ -15,12 +15,16 @@ use File::Tempdir;
 
 my $tmpdir  = File::Tempdir->new();
 my $homedir = File::Tempdir->new();
-
-my $dir = path( $tmpdir->name );
+my $dir     = path( $tmpdir->name );
 
 my $fh = $dir->child('config.ini')->openw;
 $fh->print("[Overlays]\n");
 $fh->print("directory = $_\n") for @overlays;
+$fh->print("[Overlays / test_2 ]\n");
+$fh->print("directory = $_\n") for $overlays[0];
+$fh->print("[Overlays / test_3 ]\n");
+$fh->print("directory = $_\n") for $overlays[1];
+
 $fh->flush;
 $fh->close;
 
@@ -66,5 +70,32 @@ note "Found File : " . $first->stringify;
 my $config = Gentoo::Overlay::Group::INI->load();
 
 isa_ok( $config, 'Gentoo::Overlay::Group' );
+
+my @items;
+
+is(
+  exception {
+    @items = Gentoo::Overlay::Group::INI->load_all_isa( '::Overlays', { -inflate => 0 } );
+  },
+  undef,
+  'isa doesn\'t bail'
+);
+
+is( scalar @items, 3, "3 Overlay sections found" );
+
+isa_ok( $_, 'Gentoo::Overlay::Group::INI::Section', $_->name ) for @items;
+isa_ok( $_, 'Config::MVP::Section', $_->name ) for @items;
+
+is(
+  exception {
+    @items = Gentoo::Overlay::Group::INI->load_all_isa( '::Overlays', { -inflate => 1 } );
+  },
+  undef,
+  'isa doesn\'t bail'
+);
+
+isa_ok( $_, 'Gentoo::Overlay::Group::INI::Section::Overlays' ) for @items;
+isa_ok( $_, 'Moose::Object' ) for @items;
+
 done_testing;
 

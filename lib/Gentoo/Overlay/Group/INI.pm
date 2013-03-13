@@ -6,15 +6,15 @@ BEGIN {
   $Gentoo::Overlay::Group::INI::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Gentoo::Overlay::Group::INI::VERSION = '0.1.0';
+  $Gentoo::Overlay::Group::INI::VERSION = '0.2.2';
 }
 
 # ABSTRACT: Load a list of overlays defined in a configuration file.
 
 use Moose;
-use Path::Class::Dir;
+use Path::Tiny;
 use File::HomeDir;
-use Gentoo::Overlay::Exceptions;
+use Gentoo::Overlay::Exceptions qw( :all );
 
 
 
@@ -30,9 +30,9 @@ sub _cf_paths {
 ## no critic (RegularExpressions)
 sub _init_cf_paths {
   my $cfg_paths = [
-    Path::Class::Dir->new( File::HomeDir->my_dist_config('Gentoo-Overlay-Group-INI') ),
-    Path::Class::Dir->new( File::HomeDir->my_data )->subdir( '.config', 'Gentoo-Overlay-Group-INI' ),
-    Path::Class::Dir->new('/etc/Gentoo-Overlay-Group-INI'),
+    Path::Tiny::path( File::HomeDir->my_dist_config( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
+    Path::Tiny::path( File::HomeDir->my_dist_data( 'Gentoo-Overlay-Group-INI', { create => 1 } ) ),
+    Path::Tiny::path('/etc/Gentoo-Overlay-Group-INI'),
   ];
 
   return $cfg_paths if not exists $ENV{GENTOO_OVERLAY_GROUP_INI_PATH};
@@ -42,10 +42,10 @@ sub _init_cf_paths {
   for my $path ( split /:/, $ENV{GENTOO_OVERLAY_GROUP_INI_PATH} ) {
     if ( $path =~ /^~\// ) {
       $path =~ s{^~/}{};
-      push @{$cfg_paths}, Path::Class::Dir->new( File::HomeDir->my_home )->dir($path);
+      push @{$cfg_paths}, Path::Tiny::path( File::HomeDir->my_home )->child($path);
       next;
     }
-    push @{$cfg_paths}, Path::Class::Dir->new($path);
+    push @{$cfg_paths}, Path::Tiny::path($path);
   }
   return $cfg_paths;
 }
@@ -53,7 +53,7 @@ sub _init_cf_paths {
 
 
 sub _enumerate_file_list {
-  return map { ( $_->file('config.ini'), $_->file('Gentoo-Overlay-Group-INI.ini') ) } @{ _cf_paths() };
+  return map { ( $_->child('config.ini'), $_->child('Gentoo-Overlay-Group-INI.ini') ) } @{ _cf_paths() };
 }
 
 
@@ -70,23 +70,85 @@ sub _first_config_file {
 
 
 sub load {
-  my ($self) = shift;
+  my ($self) = @_;
+
+  my $seq = $self->_parse();
+
+  return $seq->section_named('Overlays')->construct->overlay_group;
+
+}
+
+
+sub load_named {
+  my ( $self, $name, $config ) = @_;
+  $config //= {};
+  my $seq     = $self->_parse();
+  my $section = $seq->section_named($name);
+  return unless defined $section;
+  if ( not defined $config->{'-inflate'} or $config->{'-inflate'} ) {
+    return $section->construct;
+  }
+  return $section;
+}
+
+
+sub load_all_does {
+  my ( $self, $role, $config ) = @_;
+
+  $config //= {};
+  my $real_role = String::RewritePrefix->rewrite(
+    {
+      q{::} => q{Gentoo::Overlay::Group::INI::Section::},
+      q{}   => q{},
+    },
+    $role,
+  );
+
+  my $seq = $self->_parse();
+  my (@items) = grep { $_->package->does($real_role) } $seq->sections;
+  if ( not defined $config->{'-inflate'} or $config->{'-inflate'} ) {
+    return map { $_->construct } @items;
+  }
+  return @items;
+
+}
+
+
+sub load_all_isa {
+  my ( $self, $class, $config ) = @_;
+  require String::RewritePrefix;
+
+  my $real_class = String::RewritePrefix->rewrite(
+    {
+      q{::} => q{Gentoo::Overlay::Group::INI::Section::},
+      q{}   => q{},
+    },
+    $class,
+  );
+  $config //= {};
+  my $seq = $self->_parse();
+  my (@items) = grep { $_->package->isa($real_class) } $seq->sections;
+  if ( not defined $config->{'-inflate'} or $config->{'-inflate'} ) {
+    return map { $_->construct } @items;
+  }
+  return @items;
+
+}
+
+
+sub _parse {
   require Config::MVP::Reader;
   require Config::MVP::Reader::INI;
   require Gentoo::Overlay::Group::INI::Assembler;
   require Gentoo::Overlay::Group::INI::Section;
+
   my $reader = Config::MVP::Reader::INI->new();
 
   my $asm = Gentoo::Overlay::Group::INI::Assembler->new( section_class => 'Gentoo::Overlay::Group::INI::Section', );
 
   my $cnf = _first_config_file();
 
-  my $seq = $reader->read_config( $cnf, { assembler => $asm } );
-  require Gentoo::Overlay::Group;
-  my $group = Gentoo::Overlay::Group->new();
-  $group->add_overlay($_) for $seq->{sections}->{Overlays}->construct->directories;
-  return $group;
-
+  return $reader->read_config( $cnf, { assembler => $asm } );
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -95,6 +157,7 @@ no Moose;
 1;
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -105,7 +168,7 @@ Gentoo::Overlay::Group::INI - Load a list of overlays defined in a configuration
 
 =head1 VERSION
 
-version 0.1.0
+version 0.2.2
 
 =head1 SYNOPSIS
 
@@ -116,10 +179,10 @@ Generates a L<< C<Gentoo::Overlay::B<Group>> object|Gentoo::Overlay::Group >> us
 
 Currently, the following paths are checked:
 
-  ~/.perl/Gentoo-Overlay-Group-INI/config.ini
-  ~/.perl/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
-  ~/.config/Gentoo-Overlay-Group-INI/config.ini
-  ~/.config/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+  ~/.config/Perl/Gentoo-Overlay-Group-INI/config.ini #  'my_dist_config' dir
+  ~/.config/Perl/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
+  ~/.local/share/Perl/dist/Gentoo-Overlay-Group-INI/config.ini  # 'my_dist_data' dir
+  ~/.local/share/Perl/dist/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
   /etc/Gentoo-Overlay-Group-INI/config.ini
   /etc/Gentoo-Overlay-Group-INI/Gentoo-Overlay-Group-INI.ini
 
@@ -148,11 +211,33 @@ Returns a working Overlay::Group object.
 
   my $group = Gentoo::Overlay::Group::INI->load();
 
+=head2 load_named
+
+Return an inflated arbitrary section:
+
+  # A "self-named" overlay section
+  my $section = Gentoo::Overlay::Group::INI->load_named('Overlay');
+  # A 'custom named overlay section, ie:
+  # [ Overlay / foo ]
+  my $section = Gentoo::Overlay::Group::INI->load_named('foo');
+
+=head2 load_all_does
+
+Return all sections in a config file that C<do> the given role.
+
+  my ( @sections ) = Gentoo::Overlay::Group::INI->load_all_does('Some::Role');
+
+=head2 load_all_isa
+
+Return all sections in a config file that inherit the given class.
+
+  my ( @sections ) = Gentoo::Overlay::Group::INI->load_all_isa('Gentoo::Overlay::Group::Section::Overlay');
+
 =head1 PACKAGE VARIABLES
 
 =head2 $CFG_PATHS
 
-An array ref of Path::Class::Dir objects to scan for config files.
+An array ref of Path::Tiny objects to scan for config files.
 
 =head1 PRIVATE FUNCTIONS
 
@@ -180,16 +265,19 @@ Returns the path to the first file that exists.
 
   my $first = _first_config_file();
 
+=head1 PRIVATE METHODS
+
+=head2 _parse
+
 =head1 AUTHOR
 
 Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
+This software is copyright (c) 2013 by Kent Fredric <kentnl@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

@@ -11,21 +11,20 @@ my %module_build_args = (
     "File::Temp" => 0,
     "File::Tempdir" => 0,
     "FindBin" => 0,
-    "Module::Build" => "0.3601",
-    "Path::Class" => 0,
+    "Module::Build" => "0.4003",
     "Test::Fatal" => 0,
-    "Test::More" => "0.88",
+    "Test::More" => "0.98",
     "autodie" => 0
   },
   "configure_requires" => {
-    "Module::Build" => "0.3601"
+    "Module::Build" => "0.4003"
   },
   "dist_abstract" => "Load a list of overlays defined in a configuration file.",
   "dist_author" => [
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "Gentoo-Overlay-Group-INI",
-  "dist_version" => "0.1.0",
+  "dist_version" => "0.2.2",
   "license" => "perl",
   "module_name" => "Gentoo::Overlay::Group::INI",
   "recommends" => {},
@@ -39,7 +38,8 @@ my %module_build_args = (
     "Gentoo::Overlay::Exceptions" => 0,
     "Gentoo::Overlay::Group" => 0,
     "Moose" => 0,
-    "Path::Class::Dir" => 0,
+    "Path::Tiny" => 0,
+    "String::RewritePrefix" => 0,
     "perl" => "v5.10.0",
     "strict" => 0,
     "warnings" => 0

@@ -1,5 +1,32 @@
 Release history for Gentoo-Overlay-Group-INI
 
-0.1.0 2012-06-21T21:00:06Z
+0.2.2 2013-03-13T07:42:15Z
+ [!Noteable Changes]
+ - Use Path::Tiny
+
+0.2.1 2012-06-22T07:29:54Z
+ [Bug Fixes]
+ - Exceptions needs qw( :all ) to export the exception() util.
+ - File::HomeDir paths changed because XDG systems are weird.
+
+ [Tests]
+ - A File::Tempdir is now configured and assigned to $ENV{HOME} internally
+   for testing as tests will create those paths.
+
+0.2.0 2012-06-22T06:15:18Z
+ [Dependencies::Runtime]
+ - new : String::RewritePrefix
+
+ [Features]
+ - added INI->load_named( $name, $config );
+ - added INI->load_all_isa( $isa, $config );
+ - added INI->load_all_does( $role, $config );
+ - added Overlays->overlay_group();
+
+ [Internals]
+ - moved section <-> group transformer into section code.
+ - broke internals of ->load into ->_parse
+
+0.1.0 2012-06-21T21:05:59Z
  - First version.
 
